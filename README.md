@@ -90,7 +90,7 @@ B' = C * K_B
 C' = A * F(B, C) * K_C
 ```
 
-La routine `_permute_inverse()` ricostruisce i registri nel verso opposto e percorre i round in ordine inverso. I test hanno verificato il round trip su diversi stati generati deterministicamente. Questo verifica la correttezza dell'inversa nei casi provati, non la sicurezza crittografica della trasformazione.
+La routine `_permute_inverse()` ricostruisce i registri nel verso opposto e percorre i round in ordine inverso.
 
 ## 6. Padding, assorbimento e output
 
@@ -98,7 +98,7 @@ La routine `_permute_inverse()` ricostruisce i registri nel verso opposto e perc
 
 Le stringhe Python vengono codificate in UTF-8; sono accettati anche `bytes` e `bytearray` (convertito in `bytes`). Il messaggio viene trasformato in una sequenza di bit. Al contenuto viene aggiunto il suffisso di dominio personalizzato `01`, seguito dal padding con bit `1`, zeri e bit finale `1`, fino a ottenere una lunghezza multipla di 12 bit.
 
-Il padding è una scelta specifica di questo prototipo e non è il padding di SHA-256 o SHA-3. Le prove ausiliarie hanno verificato la validità del formato e l'unicità delle codifiche su un insieme di lunghezze e, in modo esaustivo, su tutti i messaggi da due byte.
+Il padding è una scelta specifica di questo prototipo.
 
 ### 6.2 Assorbimento
 
@@ -132,4 +132,4 @@ print(digest)                 # 64 caratteri esadecimali
 print(len(digest) * 4)        # 256 bit
 ```
 
-La funzione `hash()` resetta lo stato all'inizio di ogni chiamata, così la stessa istanza può essere riutilizzata senza che una chiamata precedente influisca sul risultato successivo. I test hanno controllato anche la coerenza tra `str`, `bytes` e `bytearray` per contenuti equivalenti.
+La funzione `hash()` resetta lo stato all'inizio di ogni chiamata, così la stessa istanza può essere riutilizzata senza che una chiamata precedente influisca sul risultato successivo.
