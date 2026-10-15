@@ -67,7 +67,7 @@ class FixedRNG:
 
     def next_u64(self) -> int:
         """Restituisce il prossimo valore deterministico a 64 bit."""
-        # La funzione di generazione è una variante di SplitMix64
+        # La funzione di generazione è una variante di SplitMix64 (https://rosettacode.org/wiki/Pseudo-random_numbers/Splitmix64)
         # https://prng.di.unimi.it/splitmix64.c
         self.state = (self.state + 0x9E3779B97F4A7C15) & self.MASK
         z = self.state
@@ -323,6 +323,7 @@ class RubikSponge4x4:
     """
 
     # Blocco da 12 bit = 4096 token distinti. Che rappresentano elementi distinti del gruppo.
+    # Usiamo blocchi da 12 bit invece di 8 bit per evitare collisioni locali durante l'assorbimento.
     BLOCK_BITS = 12
     TOKEN_COUNT = 1 << BLOCK_BITS  # 4096
 
@@ -518,6 +519,7 @@ class RubikSponge4x4:
     # PERMUTAZIONE INTERNA
     # --------------------------------------------------------
 
+    # Permutazione invertibile per evitare collisioni locali e garantire una buona mescolanza dello stato interno.
     def _permute(self) -> None:
         """
         Round reversibile:
@@ -570,7 +572,7 @@ class RubikSponge4x4:
         bits += self.DOMAIN_SUFFIX_BITS
         # Aggiunge un "1" per il padding 10*1.
         bits += "1"
-        # Aggiunge zeri fino a raggiungere un multiplo di 12 bit.
+        # Aggiunge zeri fino a raggiungere un multiplo di BLOCK_BITS.
         zeros = (self.BLOCK_BITS - ((len(bits) + 1) % self.BLOCK_BITS)) % self.BLOCK_BITS
         bits += "0" * zeros
         # Aggiunge un "1" finale per completare il padding 10*1.
@@ -850,7 +852,7 @@ def avalanche_test(iterations: int = 1000) -> None:
 
     percentage = total_changed / (iterations * 256) * 100
     print(f"Avalanche: {percentage:.3f}% (ideale statistico ≈ 50%)")
-# 
+
 
 # ============================================================
 # TEST DI ESEMPIO
