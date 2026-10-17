@@ -36,6 +36,29 @@
 # che abbia 128 bit di collision resistance o 256 bit di preimage
 # resistance. Per uso reale bisogna usare SHA-256/SHA3-256 o altro
 # standard analizzato pubblicamente.
+#
+# INFORMAZIONI ULTERIORI
+# ----------------------
+# Combinazioni di mosse del cubo di Rubik 4x4x4:
+# Ci sono 8 angoli in totale con 3 possibili orientamenti ciascuno, 24 spigoli totali con 2 orientamenti ciascuno, 24 pezzi centrali, per un totale massimo di 8!·24!·24!·3⁸·2²⁴ posizioni.
+# Questo limite non viene raggiunto perché:
+#     La torsione totale degli angoli è fissa (3)
+#     L'orientamento degli spigoli dipende dalla loro posizione (2²⁴)
+#     Ci sono centri di faccia indistinguibili (4!⁶)
+#     L'orientamento del rompicapo non importa (24)
+#     Risultato: 7!·24!·24!·3⁶/4!⁶ =
+#       7.401.196.841.564.901.869.874.093.974.498.574.336.000.000.000
+#       7,4 · 10⁴⁵ posizioni.
+# 
+# - https://www.jaapsch.net/puzzles/cube4.htm
+#
+# CODICE SU GITHUB:
+# - https://github.com/brandovardi/rubiks_cube_hash
+#
+# Per una spiegazione dettagliata della costruzione, vedere il video:
+# - https://www.youtube.com/watch?v=kRrK4VJBf2s
+# 
+# Copyright (c) 2024, Brando Vardi
 # ============================================================
 
 from __future__ import annotations
@@ -872,7 +895,6 @@ def example_test() -> None:
 
     for message in samples:
         print(f"{message!r} -> {h.hash(message)}")
-
 
 # ============================================================
 # MAIN
